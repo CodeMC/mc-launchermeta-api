@@ -1,0 +1,33 @@
+{
+  "name": "mc-launchermeta-api",
+  "version": "1.0.0",
+  "description": "A simple microservice that exposes data from the Minecraft LauncherMeta API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeMC/mc-launchermeta-api.git"
+  },
+  "keywords": [
+    "minecraft",
+    "launcher",
+    "rest",
+    "microservice"
+  ],
+  "author": "sgdc3",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CodeMC/mc-launchermeta-api/issues"
+  },
+  "homepage": "https://github.com/CodeMC/mc-launchermeta-api#readme",
+  "devDependencies": {
+    "eslint": "^7.28.0"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "node-cache": "^5.1.2"
+  }
+}
