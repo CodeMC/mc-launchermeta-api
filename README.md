@@ -16,3 +16,7 @@ A simple microservice that exposes data from the Minecraft LauncherMeta API
 
 ### Public endpoint:
 The latest version of the microservice is running at https://launchermeta.codemc.io/
+
+### Examples:
+- Get the latest release metadata: https://launchermeta.codemc.io/minecraft/version/latest/release
+- Download the latest release server mappings: https://launchermeta.codemc.io/minecraft/version/latest/release/download/server_mappings
