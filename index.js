@@ -47,42 +47,32 @@ async function getVersionDescriptor(version) {
     return descriptor;
 }
 
-app.get('/minecraft/version/latest', async (request, response) => {
-    const manifest = await getVersionManifest();
-
-    const release = await getVersionDescriptor(manifest.latest.release);
-    const snapshot = await getVersionDescriptor(manifest.latest.snapshot);
-
-    response.json({
-        release: release,
-        snapshot: snapshot
-    });
-});
-
-app.get('/minecraft/version/latest/:type', async (request, response) => {
-    const manifest = await getVersionManifest();
-
+app.get('/minecraft/version/:version', async (request, response) => {
     let version;
-    switch (request.params.type) {
-    case 'release':
-        version = manifest.latest.release;
-        break;
-    case 'snapshot':
-        version = manifest.latest.release;
-        break;
-    default:
-        throw new Error(`Unknown type ${request.params.type}`);
+    if (['release', 'snapshot'].includes(request.params.version)) {
+        const manifest = await getVersionManifest();
+        if (request.params.version === 'release') {
+            version = manifest.latest.release;
+        } else if (request.params.version === 'snapshot') {
+            version = manifest.latest.release;
+        }
+    } else {
+        version = request.params.version;
     }
-
     const descriptor = await getVersionDescriptor(version);
+    if (!descriptor) {
+        response.status(404);
+        response.send(`No such version '${request.params.version}'`);
+        return;
+    }
     response.json(descriptor);
 });
 
-app.get('/minecraft/version/latest/:type/download/:download', async (request, response) => {
+app.get('/minecraft/version/:version/download/:download', async (request, response) => {
     const manifest = await getVersionManifest();
 
     let version;
-    switch (request.params.type) {
+    switch (request.params.version) {
     case 'release':
         version = manifest.latest.release;
         break;
@@ -90,9 +80,7 @@ app.get('/minecraft/version/latest/:type/download/:download', async (request, re
         version = manifest.latest.release;
         break;
     default:
-        response.status(404);
-        response.send(`No such type '${request.params.type}'`);
-        return;
+        version = request.params.version;
     }
 
     const descriptor = await getVersionDescriptor(version);
